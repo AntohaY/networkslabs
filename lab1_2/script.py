@@ -1,42 +1,43 @@
 from socket import *
 import struct
-import sys
 import time
 from datetime import datetime
 
 NTP_SERVER = "time.google.com"
-#this is the unix time for January  1 1970
+# this is the unix time for January  1 1970
 TIME1970 = 2208988800
-#create a client socket
+# create a client socket
 clientSocket = socket(AF_INET, SOCK_DGRAM)
-#connect to ntp port
+# connect to ntp port
 portNumber = 123
 
+
 def sntp_client():
-    #data to be encrypted and sent to ntp server
+
+    # data to be encrypted and sent to ntp server
     data = '\x1b' + 47 * '\0'
 
-    #sending data to ntp
+    # sending data to ntp
     dt = datetime.now()
-    #send data to ntp server through port
+    # send data to ntp server through port
     clientSocket.sendto( data.encode('utf-8'), ( NTP_SERVER, portNumber ))
-    #recieve the data and address
+    # receive the data and address
     data, address = clientSocket.recvfrom(1024)
-    #received data from NTP
+    # received data from NTP
     dt1 = datetime.now()
 
-    #if there is data return do the following
+    # if there is data return do the following
     if data:
         print ('Response received from:', address)
-        #unpack the data and get time at index 10 because that is going to be used to calculate current time
+
         t_time = struct.unpack( '!12I', data )[10]
-        #subtract January 1 1970 to get current date and time
+        # subtract January 1 1970 to get current date and time
         t_time -= TIME1970
-        #princt time and date
+        # print time and date
         print ('Time= ',time.ctime(t_time))
         print ('Sync time : ', dt1-dt)
-    #close socket
+    # close socket
     clientSocket.close()
-#main
+# main
 if __name__ == '__main__':
     sntp_client()
