@@ -6,7 +6,7 @@ PORT = 7000        # The port used by the server
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))
-    s.sendall(b'GET\n/index.html\nHTTP/1.1\nHost: 127.0.0.1\n\n')
+    s.sendall(b'GET\n/index.html\nHTTP/0.9\nHost: 127.0.0.1\n\n')
     data = s.recv(1024)
     # sys.exit()
 

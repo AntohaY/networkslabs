@@ -55,9 +55,9 @@ while True:
 
         header = ''
         if response_code == 200:
-            header += 'HTTP/1.1 200 OK\n'
+            header += 'HTTP/0.9 200 OK\n'
         elif response_code == 404:
-            header += 'HTTP/1.1 404 Not Found\n'
+            header += 'HTTP/0.9 404 Not Found\n'
 
         time_now = time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime())
 
