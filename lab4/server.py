@@ -36,21 +36,23 @@ while True:
     response = ''
     response_data = ''
     file_requested = ''
+    response_code = ''
 
     if request_method == 'GET':
         file_requested = line.split(' ')[1]
 
         if file_requested == "/index.html":
             response_data = b"<html><body><h1>Welcome!</h1></body></html>"
+            response_code = 200
         else:
             print("File not found. Serving 404 page.")
             response_data = b"<html><body><h1>Error 404: File not found</h1></body></html>"
+            response_code = 404
         filepath_to_serve = ".../{f}.".format(f=file_requested)
         print("Serving web page [{fp}]".format(fp=filepath_to_serve))
 
         response = response_data
 
-        response_code = ''
         header = ''
         if response_code == 200:
             header += 'HTTP/1.1 200 OK\n'
@@ -58,6 +60,7 @@ while True:
             header += 'HTTP/1.1 404 Not Found\n'
 
         time_now = time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime())
+
         header += 'Date: {now}\n'.format(now=time_now)
         header += 'Server: Simple-Python-Server\n'
         header += 'Connection: close\n\n'  # Signal that connection will be closed after completing the request
