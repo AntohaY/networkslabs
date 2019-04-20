@@ -38,10 +38,11 @@ while True:
     file_requested = ''
     response_code = ''
 
+    # while True:
     if request_method == 'GET':
         file_requested = line.split(' ')[1]
 
-        if file_requested == "/index.html":
+        if (file_requested == "/index.html") or (file_requested == "/"):
             response_data = b"<html><body><h1>Welcome!</h1></body></html>"
             response_code = 200
         else:
@@ -68,11 +69,14 @@ while True:
         response_header = header.encode() + response
 
         conn.send(response_header)
+        conn.close()
+        break
 
     else:
         print("Unknown HTTP request method: {method}".format(method=request_method))
         conn.send(b'Unknown HTTP request method')
+        break
 
     print("Method: {m}".format(m=request_method))
     print( line )
-s.close()
+conn.close()
